@@ -1,4 +1,4 @@
-import { DataTypes, Model} from 'https://deno.land/x/denodb/mod.ts';
+import { DataTypes, Model} from 'https://deno.land/x/denodb@v1.2.0/mod.ts';
 
 export class Links extends Model {
     static table = "links";
