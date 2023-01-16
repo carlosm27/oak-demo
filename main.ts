@@ -1,17 +1,14 @@
-import { Application, Router, send } from "https://deno.land/x/oak/mod.ts";
+import { Application, send } from "https://deno.land/x/oak@v11.1.0/mod.ts";
 import {db } from "./db.ts"
-
+import { linkRouter } from "./router/Router.ts";
 
 const ROOT_DIR = "./file";
-
-const router = new Router();
-router.get("/", (ctx) => {
-  ctx.response.body = "Hello World"
-});
 
 
 
 const app = new Application();
+
+app.use(linkRouter.routes());
 
 app.use(async (ctx) => {
   
@@ -22,7 +19,7 @@ app.use(async (ctx) => {
 
 await db.sync()
 
-app.use(router.routes());
-app.use(router.allowedMethods());
+
+//app.use(router.allowedMethods());
 
 app.listen({ port: 8080 });
