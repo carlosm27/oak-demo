@@ -1,6 +1,7 @@
-import { Application, send } from "https://deno.land/x/oak@v11.1.0/mod.ts";
+import { Application,Router, send } from "https://deno.land/x/oak@v11.1.0/mod.ts";
 import {db } from "./db.ts"
-import { linkRouter } from "./router/Router.ts";
+//import { linkRouter } from "./router/Router.ts";
+import {AllLinks, GetLink, CreateLinks, UpdatedLink, DeletedLink} from "./controllers/Controllers.ts"
 
 const ROOT_DIR = "./file";
 
@@ -8,7 +9,16 @@ const ROOT_DIR = "./file";
 
 const app = new Application();
 
-app.use(linkRouter.routes());
+const router = new Router();
+
+router.get("/links", AllLinks)
+router.get("/link/:id", GetLink);
+router.post("/link", CreateLinks);
+router.put("/link/:id", UpdatedLink);
+router.delete("/link/:id", DeletedLink);
+
+
+app.use(router.routes());
 
 app.use(async (ctx) => {
   
