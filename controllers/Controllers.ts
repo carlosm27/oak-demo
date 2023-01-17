@@ -1,10 +1,11 @@
 import { Context, Status } from "https://deno.land/x/oak@v11.1.0/mod.ts";
-import {Links} from '../model/Links.ts';
+import {Person} from '../model/Person.ts';
 
-export const AllLinks = async (ctx: Context) => {
+export const AllPersons = async (ctx: Context) => {
+
     try {
-        const links =  await Links.all()
-        ctx.response.body = links;
+        const person =  await Person.all()
+        ctx.response.body = person;
         ctx.response.type = "json";
         ctx.response.status = Status.OK;
     
@@ -14,35 +15,39 @@ export const AllLinks = async (ctx: Context) => {
       }
 };
 
-export const CreateLinks = async (ctx: Context) => {
-    const link = await ctx.request.body({type:"json"}).value;
+export const CreatePerson = async (ctx: Context) => {
+    const person = await ctx.request.body({type:"json"}).value;
 
-    const createdLink = await Links.create(link);
-    
-  
     try {
+
+        const createdPerson = await Person.create(person);
+        
+        ctx.response.body = createdPerson;
+        ctx.response.type = "json";
+        ctx.response.status = Status.Created;
   
-      ctx.response.body = createdLink;
-      ctx.response.type = "json";
-      ctx.response.status = Status.Created;
-  
-    }catch( err) {
-      console.log(err)
-      ctx.response.status = Status.InternalServerError;
+    } catch( _err) {
+
+         ctx.response.status = Status.InternalServerError;
     }
 };
 
-export const GetLink = async (ctx: Context) => {
+export const GetPerson = async (ctx: Context) => {
     const id = ctx.params.id
 
     try {
-        const link = await Links.where('id', id).first()
-        if (!link) {
-        ctx.response.status = Status.NotFound
-        }
-      ctx.response.body = link;
-      ctx.response.type = "json";
-      ctx.response.status = Status.OK;
+        const person = await Person.where('id', id).first()
+
+        if (!person) {
+
+            ctx.response.status = Status.NotFound
+
+        } else {
+            ctx.response.body = person;
+            ctx.response.type = "json";
+            ctx.response.status = Status.OK;
+
+        }  
         
     } catch (_err) {
   
@@ -51,42 +56,53 @@ export const GetLink = async (ctx: Context) => {
     } 
 }
 
-export const UpdatedLink = async (ctx: Context) => {
+export const UpdatedPerson = async (ctx: Context) => {
     const id = ctx.params.id
   const reqBody = await ctx.request.body().value;
 
 
   try {
-      const link = await Links.where('id', id).first()
+      const person = await Person.where('id', id).first()
 
-      if (!link) {
+      if (!person) {
       ctx.response.status = Status.NotFound
-      }
-      await Links.where('id', id).update(reqBody)
-      ctx.response.body = "Link Updated";
-      ctx.response.type = "json";
-      ctx.response.status = Status.OK;
-      
-  } catch (_err) {
 
-    ctx.response.status = Status.InternalServerError;
+      } else {
+
+        await Person.where('id', id).update(reqBody)
+        ctx.response.body = "Person Updated";
+        ctx.response.type = "json";
+        ctx.response.status = Status.OK;
+
+      }
+      
+      
+    } catch (_err) {
+
+        ctx.response.status = Status.InternalServerError;
 
   }     
     
-}
+};
 
-export const DeletedLink = async  (ctx: Context) => {
+export const DeletedPerson = async  (ctx: Context) => {
     const id = ctx.params.id
 
     try {
-        const link = await Links.where('id', id).first()
-        if (!link) {
-        ctx.response.status = Status.NotFound
+        const person = await Person.where('id', id).first()
+
+        if (!person) {
+
+            ctx.response.status = Status.NotFound
+
+        } else {
+            Person.delete()
+            ctx.response.body = "Person deleted";
+            ctx.response.type = "json";
+            ctx.response.status = Status.OK;
+
         }
-      link.delete()
-      ctx.response.body = "Link deleted";
-      ctx.response.type = "json";
-      ctx.response.status = Status.OK;
+      
         
     } catch (_err) {
   
