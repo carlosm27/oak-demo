@@ -1,7 +1,6 @@
 import { Application,Router, send } from "https://deno.land/x/oak@v11.1.0/mod.ts";
 import {db } from "./db.ts"
-//import { linkRouter } from "./router/Router.ts";
-import {AllLinks, GetLink, CreateLinks, UpdatedLink, DeletedLink} from "./controllers/Controllers.ts"
+import {AllPersons, GetPerson, CreatePerson, UpdatedPerson, DeletedPerson} from "./controllers/Controllers.ts"
 
 const ROOT_DIR = "./file";
 
@@ -11,11 +10,11 @@ const app = new Application();
 
 const router = new Router();
 
-router.get("/links", AllLinks)
-router.get("/link/:id", GetLink);
-router.post("/link", CreateLinks);
-router.put("/link/:id", UpdatedLink);
-router.delete("/link/:id", DeletedLink);
+router.get("/persons", AllPersons)
+router.get("/person/:id", GetPerson);
+router.post("/person", CreatePerson);
+router.put("/person/:id", UpdatedPerson);
+router.delete("/person/:id", DeletedPerson);
 
 
 app.use(router.routes());
