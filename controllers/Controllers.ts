@@ -10,7 +10,7 @@ export const AllPersons = async (ctx: Context) => {
         ctx.response.status = Status.OK;
     
       } catch(_err) {
-      
+        ctx.response.body = "Something went wrong";
         ctx.response.status = Status.InternalServerError;
       }
 };
@@ -27,8 +27,9 @@ export const CreatePerson = async (ctx: Context) => {
         ctx.response.status = Status.Created;
   
     } catch( _err) {
-
-         ctx.response.status = Status.InternalServerError;
+        
+        ctx.response.status = Status.InternalServerError;
+        ctx.response.body = "Something went wrong";
     }
 };
 
@@ -50,38 +51,39 @@ export const GetPerson = async (ctx: Context) => {
         }  
         
     } catch (_err) {
-  
-      ctx.response.status = Status.InternalServerError;
+
+        ctx.response.body = "Something went wrong";
+        ctx.response.status = Status.InternalServerError;
   
     } 
 }
 
 export const UpdatedPerson = async (ctx: Context) => {
     const id = ctx.params.id
-  const reqBody = await ctx.request.body().value;
+    const reqBody = await ctx.request.body().value;
 
 
-  try {
-      const person = await Person.where('id', id).first()
+    try {
+        const person = await Person.where('id', id).first()
 
-      if (!person) {
-      ctx.response.status = Status.NotFound
+        if (!person) {
+            ctx.response.status = Status.NotFound
 
-      } else {
+        } else {
 
-        await Person.where('id', id).update(reqBody)
-        ctx.response.body = "Person Updated";
-        ctx.response.type = "json";
-        ctx.response.status = Status.OK;
+            await Person.where('id', id).update(reqBody)
+            ctx.response.body = "Person Updated";
+            ctx.response.type = "json";
+            ctx.response.status = Status.OK;
 
-      }
-      
-      
-    } catch (_err) {
+        }
+        
+        
+        } catch (_err) {
+            ctx.response.body = "Something went wrong";
+            ctx.response.status = Status.InternalServerError;
 
-        ctx.response.status = Status.InternalServerError;
-
-  }     
+    }     
     
 };
 
@@ -105,8 +107,8 @@ export const DeletedPerson = async  (ctx: Context) => {
       
         
     } catch (_err) {
-  
-      ctx.response.status = Status.InternalServerError;
+        ctx.response.body = "Something went wrong";
+        ctx.response.status = Status.InternalServerError;
   
     }        
     
