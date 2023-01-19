@@ -58,7 +58,7 @@ export const GetPerson = async (ctx: Context) => {
     } 
 }
 
-export const UpdatedPerson = async (ctx: Context) => {
+export const UpdatePerson = async (ctx: Context) => {
     const id = ctx.params.id
     const reqBody = await ctx.request.body().value;
 
@@ -87,7 +87,7 @@ export const UpdatedPerson = async (ctx: Context) => {
     
 };
 
-export const DeletedPerson = async  (ctx: Context) => {
+export const DeletePerson = async  (ctx: Context) => {
     const id = ctx.params.id
 
     try {
