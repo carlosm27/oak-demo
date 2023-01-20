@@ -1,2 +1,2 @@
 # oak-demo
-A demo server written with TypeScript using Oak
+A demo Oak server written for my [article](https://carlosmv.hashnode.dev/building-a-server-with-oak-deno) posted on Hashnode
